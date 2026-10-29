@@ -6,9 +6,49 @@
     Magento's canonical links for products and categories, on by default here
     (Magento ships them off): one URL per product whatever category it was
     reached from.
+
+    robots.txt (Content > Design > Configuration > Search Engine Robots, per
+    website; empty in Magento until someone saves it): every page, product,
+    category and its pages (?p=), none of the URLs with filters, sorting or a
+    search in them. Found 2026-10-25: with no robots.txt, Meta's and
+    Anthropic's crawlers walked every combination of the layered navigation's
+    filters (?color=&size=&climate=…), about 5 requests a second, none of
+    them cacheable, and kept the server's CPU at 42 % for a week. The cart,
+    checkout, account and the storefront's own fragment URLs (/zero/…) are
+    closed too, at the root and under a store's path (/beam/checkout/).
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
+        <design>
+            <search_engine_robots>
+                <custom_instructions><![CDATA[User-agent: *
+Disallow: /*?
+Allow: /*?p=
+Disallow: /index.php/
+Disallow: /*SID=
+Disallow: /checkout/
+Disallow: /*/checkout/
+Disallow: /customer/
+Disallow: /*/customer/
+Disallow: /catalogsearch/
+Disallow: /*/catalogsearch/
+Disallow: /catalog/product_compare/
+Disallow: /*/catalog/product_compare/
+Disallow: /wishlist/
+Disallow: /*/wishlist/
+Disallow: /sales/
+Disallow: /*/sales/
+Disallow: /review/
+Disallow: /*/review/
+Disallow: /sendfriend/
+Disallow: /*/sendfriend/
+Disallow: /quickview/
+Disallow: /*/quickview/
+Disallow: /zero/
+Disallow: /*/zero/
+]]></custom_instructions>
+            </search_engine_robots>
+        </design>
         <catalog>
             <seo>
                 <product_canonical_tag>1</product_canonical_tag>
@@ -20,6 +60,7 @@
                 <structured_data>1</structured_data>
                 <hreflang>1</hreflang>
                 <meta_description>1</meta_description>
+                <noindex_variants>1</noindex_variants>
             </general>
         </zero_seo>
     </default>

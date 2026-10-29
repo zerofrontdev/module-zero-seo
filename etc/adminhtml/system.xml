@@ -27,6 +27,11 @@
                     <comment>A product or category without its own Meta Description gets the start of its description (about 160 characters).</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
+                <field id="noindex_variants" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>No Index for Filtered Lists and Search</label>
+                    <comment>NOINDEX,FOLLOW on a category or brand page with a filter, sort order or page size in its URL, and on search results. The category and its pages stay indexed. (The theme marks filter and sort links rel="nofollow" either way.)</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
             </group>
         </section>
     </system>
