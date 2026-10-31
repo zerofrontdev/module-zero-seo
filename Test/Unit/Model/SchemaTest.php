@@ -81,6 +81,15 @@ class SchemaTest extends TestCase
         $this->assertSame('Один два…', Schema::text('Один два три чотири', 12));
     }
 
+    public function testDirectivesAreStripped(): void
+    {
+        $this->assertSame('Soft cotton. Machine wash.', Schema::text(
+            '<p>Soft {{widget type="Magento\\CatalogWidget\\Block\\Product\\ProductsList" conditions="a>b"}} cotton.</p>'
+            . "{{block\n id=\"care\"}}<p>Machine wash.{{media url=\"wysiwyg/a.jpg\"}}</p>"
+        ));
+        $this->assertSame('Тепло {{ не закрито', Schema::text('<p>Тепло {{ не закрито</p>'));
+    }
+
     private function product(array $values): array
     {
         return $values + [

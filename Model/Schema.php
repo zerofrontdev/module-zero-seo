@@ -123,9 +123,11 @@ class Schema
 
     /**
      * Plain text from HTML, whitespace collapsed, cut at a word before $length.
+     * Unrendered {{widget}}/{{media}} directives are dropped first.
      */
     public static function text(string $html, int $length = 0): string
     {
+        $html = (string) preg_replace('/\{\{.*?\}\}/su', ' ', $html);
         $text = trim((string) preg_replace('/\s+/u', ' ', html_entity_decode(strip_tags(
             (string) preg_replace('/<(br|\/p|\/li|\/h[1-6]|\/tr)\b[^>]*>/i', ' ', $html)
         ), ENT_QUOTES | ENT_HTML5, 'UTF-8')));
